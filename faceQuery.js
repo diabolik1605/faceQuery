@@ -51,6 +51,12 @@ function $(id) {
         var thatParent = that.getParentNode();
         return thatParent.insertBefore(element,thatParent);
     }
+    that.hide = function(){
+        Animation(that).to('opacity', 0).from(1).blind().hide().go();
+    }
+    that.show = function(){
+        Animation(that).to('opacity', 1).from(0).blind().show().go();
+    }
     that.text = function(value){
         return that.setTextValue(value);
     }
