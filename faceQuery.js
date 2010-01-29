@@ -51,11 +51,21 @@ function $(id) {
         var thatParent = that.getParentNode();
         return thatParent.insertBefore(element,thatParent);
     }
-    that.hide = function(){
-        Animation(that).to('opacity', 0).from(1).blind().hide().go();
+    that.hide = function(value){
+        // if value is defined a duration in milliseconds is added
+        if(typeof(value) != 'undefined'){
+            Animation(that).to('opacity', 0).from(1).blind().hide().duration(value).go();
+        } else {
+            Animation(that).to('opacity', 0).from(1).blind().hide().go();
+        }
     }
-    that.show = function(){
-        Animation(that).to('opacity', 1).from(0).blind().show().go();
+    that.show = function(value){
+        // if value is defined a duration in milliseconds is added
+        if(typeof(value) != 'undefined'){
+            Animation(that).to('opacity', 1).from(0).blind().show().duration(value).go();
+        } else {
+            Animation(that).to('opacity', 1).from(0).blind().show().go();
+        }
     }
     that.text = function(value){
         return that.setTextValue(value);
