@@ -51,20 +51,30 @@ function $(id) {
         var thatParent = that.getParentNode();
         return thatParent.insertBefore(element,thatParent);
     }
-    that.hide = function(value){
+    that.hide = function(value, easetype){
         // if value is defined a duration in milliseconds is added
+		// Facebook Builtin Animation Ease Types: 
+		// Animation.ease.begin - Animation.ease.end - Animation.ease.both
         if(typeof(value) != 'undefined'){
-            Animation(that).to('opacity', 0).from(1).blind().hide().duration(value).go();
+			if (typeof(easetype) != 'undefined'){
+				Animation(that).to('opacity', 0).from(1).hide().duration(value).ease(easetype).go();
+			} else {
+				Animation(that).to('opacity', 0).from(1).hide().duration(value).go();
+			}
         } else {
-            Animation(that).to('opacity', 0).from(1).blind().hide().go();
+            Animation(that).to('opacity', 0).from(1).hide().go();
         }
     }
-    that.show = function(value){
+    that.show = function(value, easetype){
         // if value is defined a duration in milliseconds is added
         if(typeof(value) != 'undefined'){
-            Animation(that).to('opacity', 1).from(0).blind().show().duration(value).go();
+			if (typeof(easetype) != 'undefined'){
+            	Animation(that).to('opacity', 1).from(0).show().duration(value).ease(easetype).go();
+			} else {
+				Animation(that).to('opacity', 1).from(0).show().duration(value).go();
+			}
         } else {
-            Animation(that).to('opacity', 1).from(0).blind().show().go();
+            Animation(that).to('opacity', 1).from(0).show().go();
         }
     }
     that.text = function(value){
