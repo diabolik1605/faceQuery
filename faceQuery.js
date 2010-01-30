@@ -1,6 +1,18 @@
 // jQuery-like functions for ease of use
-function $(id) {
-	var that = document.getElementById(id);
+function $(selector) {
+	if ( typeof selector === "string" ) {
+		var selectorIdent = selector.charAt(0);
+		switch(selectorIdent){
+		    case "#":
+		    var id = selector.substring(1);
+    		var that = document.getElementById(id);
+    		break;
+    		// Since I cant do anything other than id for now, just default to it
+		    default:
+		    var that = document.getElementById(selector);
+		    break;
+		}
+	}
 	that.attr = function(item, value){
 	    // if the value is not entered the function will get instead of set.
     	if(typeof(value) != 'undefined'){
@@ -55,7 +67,7 @@ function $(id) {
         // if value is defined a duration in milliseconds is added
         if(typeof(value) != 'undefined'){
             // Facebook Builtin Animation Ease Types: 
-            // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+        	// Animation.ease.begin - Animation.ease.end - Animation.ease.both
     	    if (typeof(easetype) != 'undefined'){
     		    Animation(that).to('opacity', 0).from(1).hide().duration(value).ease(easetype).go();
     	    } else {
@@ -69,11 +81,11 @@ function $(id) {
         // if value is defined a duration in milliseconds is added
         if(typeof(value) != 'undefined'){
             // Facebook Builtin Animation Ease Types: 
-            // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+        	// Animation.ease.begin - Animation.ease.end - Animation.ease.both
     	    if (typeof(easetype) != 'undefined'){
-    		    Animation(that).to('opacity', 1).from(0).show().duration(value).ease(easetype).go();
+                	Animation(that).to('opacity', 1).from(0).show().duration(value).ease(easetype).go();
     	    } else {
-    		    Animation(that).to('opacity', 1).from(0).show().duration(value).go();
+                	Animation(that).to('opacity', 1).from(0).show().duration(value).go();
     	    }
         } else {
             Animation(that).to('opacity', 1).from(0).show().go();
