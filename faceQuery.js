@@ -20,40 +20,60 @@ function $(selector) {
 	}
 	that.attr = function(item, value){
 	    // if the value is not entered the function will get instead of set.
-    	if(typeof(value) != 'undefined'){
-            switch(item){
-                case "class":
-                return that.addClassName(value);
-                break;
-                case "src":
-                return that.setSrc(value);
-                break;
-                case "id":
-                return that.setId(value);
-                break;
-                case "title":
-                return that.setTitle(value);
-                break;
-                case "name":
-                return that.setName(value);
-                break;
-            } 
-        } else {
-            switch(item){
-                case "src":
-                return that.getSrc(value);
-                break;
-                case "id":
-                return that.getId(value);
-                break;
-                case "title":
-                return that.getTitle(value);
-                break;
-                case "name":
-                return that.getName(value);
-                break;
-            }
-        }
+	    // if the item is an object loop thru
+	    // NOTE: object only works in FF/Chrome, doesnt work in IE/Safari
+	    if(typeof(item) === 'object'){
+	        for(var attr in item){
+	            if (item.hasOwnProperty(attr)){
+	                if(attr = "class"){
+	                    return that.addClassName(item[attr]);
+	                } else if(attr = "src") {
+	                    return that.setSrc(item[attr]);
+	                } else if(attr = "id") {
+	                    return that.setId(item[attr]);
+	                } else if(attr = "title") {
+	                    return that.setTitle(item[attr]);
+	                } else if(attr = "name") {
+	                    return that.setName(item[attr]);
+	                }  
+                }
+	        }
+	    } else if(typeof(item) === 'string'){
+	        if(typeof(value) != 'undefined'){
+                switch(item){
+                    case "class":
+                    return that.addClassName(value);
+                    break;
+                    case "src":
+                    return that.setSrc(value);
+                    break;
+                    case "id":
+                    return that.setId(value);
+                    break;
+                    case "title":
+                    return that.setTitle(value);
+                    break;
+                    case "name":
+                    return that.setName(value);
+                    break;
+                } 
+            } else {
+                switch(item){
+                    case "src":
+                    return that.getSrc(value);
+                    break;
+                    case "id":
+                    return that.getId(value);
+                    break;
+                    case "title":
+                    return that.getTitle(value);
+                    break;
+                    case "name":
+                    return that.getName(value);
+                    break;
+                }
+            }   
+	    }
     }
     that.xhtml = function(value){
         return that.setInnerXHTML(value);
