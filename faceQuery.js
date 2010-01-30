@@ -1,13 +1,18 @@
 // jQuery-like functions for ease of use
 function $(selector) {
-	if ( typeof selector === "string" ) {
+	// Handle $(obj)
+	if (typeof selector === "object"){
+	    var that = selector;
+	    // Handle $("string")
+	} else if (typeof selector === "string") {
 		var selectorIdent = selector.charAt(0);
+		// Figure out selector in string then do accordingly
 		switch(selectorIdent){
 		    case "#":
 		    var id = selector.substring(1);
     		var that = document.getElementById(id);
     		break;
-    		// Since I cant do anything other than id for now, just default to it
+    		// since I cant do anything other than id for now just default to it
 		    default:
 		    var that = document.getElementById(selector);
 		    break;
@@ -56,6 +61,9 @@ function $(selector) {
     that.xhtml = function(value){
         return that.setInnerXHTML(value);
     }
+    that.fbml = function(value){
+        return that.setInnerFBML(value);
+    }
     that.append = function(element){
         return that.appendChild(element);
     }
@@ -93,6 +101,13 @@ function $(selector) {
     }
     that.text = function(value){
         return that.setTextValue(value);
+    }
+    that.click = function(fnc){
+        if(that.attachEvent){
+            return that.attachEvent('onclick', fnc);
+        } else if(that.addEventListener){
+            return that.addEventListener('click', fnc, false);
+        }
     }
 	return that;
 }
