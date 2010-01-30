@@ -37,9 +37,6 @@ function $(selector) {
                 case "name":
                 return that.setName(value);
                 break;
-                case "xhtml":
-                return that.setInnerXHTML(value);
-                break;
             } 
         } else {
             switch(item){
