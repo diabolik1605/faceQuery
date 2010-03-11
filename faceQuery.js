@@ -14,9 +14,9 @@ function $(selector) {
 		 *    "." : get elements by class
 		 *    @todo: add more selector types, including selectors that return aggregates
 		 */
-		var quickExpr = /([#|\.])[\w-]+/;
+		var quickExpr = /([#|\.])([\w-]+)$/;
 		var match = quickExpr.exec( selector );
-		// console.log(match);
+		console.log(match);
 		var selectorIdent = match[1];
 		switch(selectorIdent){
 		    case "#":
@@ -26,7 +26,6 @@ function $(selector) {
       		case ".":
     		    var klass = match[0].substring(1);
     		    var klassArry = [];
-            klassArry.length = 0;
             var root = document.getRootElement();
             var rootChildren = root.getChildNodes();
             rootChildren.forEach(function(item){
@@ -41,25 +40,16 @@ function $(selector) {
 		    	break;
 		}
 	}
-	
-	faceQuery(that,fqExtend);
+	if(that){
+	  faceQuery(that,fqExtend);
+	}
 	return that;
 }
 
 
 function faceQuery(instance,hash) {
-  if(instance.length){
-    instance.forEach(function(item){
-      if(typeof(item) === 'object'){
-        for (var name in hash) {
-          item[name] = hash[name];
-        }
-      }
-    });
-  } else {
-    for (var name in hash) {
-        instance[name] = hash[name];
-    }
+  for (var name in hash) {
+      instance[name] = hash[name];
   }
 }
 
@@ -227,5 +217,28 @@ var fqExtend = {
     } else if(this.addEventListener){
   	  return this.addEventListener('click', fnc, false);
     }
+  },
+  hover: function(fncOver,fncOut){
+    if(this.attachEvent){
+  	  this.attachEvent('mouseover', fncOver);
+  	  this.attachEvent('mouseout', fncOut);
+  	  return this;
+    } else if(this.addEventListener){
+  	  this.addEventListener('mouseover', fncOver);
+  	  this.addEventListener('mouseout', fncOut);
+    }
+  },
+  css: function(item,value){
+    if(typeof(item) === 'object') {
+  		for(var attr in item){
+  	    this.setStyle(attr,item[attr]);
+  		}
+  	} else if(typeof(item) === 'string') {
+    	if(typeof(value) != 'undefined') {
+		    return this.setStyle(item,value);
+    	} else {
+    	  return this.getStyle(item);
+    	}
+  	}
   }
 }
