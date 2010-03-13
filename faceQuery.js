@@ -16,7 +16,7 @@ function $(selector) {
 		 */
 		var quickExpr = /([#|\.])([\w-]+)$/;
 		var match = quickExpr.exec( selector );
-		console.log(match);
+		// console.log(match);
 		var selectorIdent = match[1];
 		switch(selectorIdent){
 		    case "#":
@@ -26,18 +26,18 @@ function $(selector) {
       		case ".":
     		    var klass = match[0].substring(1);
     		    var klassArry = [];
-    		    var root = document.getRootElement();
-    		    var rootChildren = root.getChildNodes();
-    		    rootChildren.forEach(function(item){
-    		    	if(typeof(item) === 'object' && item.hasClassName(klass)){
-    		    		klassArry[klassArry.length] = item;
-    		    	}
-    		    }, rootChildren);
-    		    that = klassArry;
-    		    break;
-      		default:
-    		    that = document.getElementById(match[0]);
-    		    break;
+            var root = document.getRootElement();
+            var rootChildren = root.getChildNodes();
+            rootChildren.forEach(function(item){
+              if(typeof(item) === 'object' && item.hasClassName(klass)){
+                  klassArry[klassArry.length] = item;
+              }
+            }, rootChildren);
+            that = klassArry;
+            break;
+		    default:
+		    	that = document.getElementById(match[0]);
+		    	break;
 		}
 	}
 	if(that){
@@ -55,16 +55,35 @@ function faceQuery(instance,hash) {
 
 var fqExtend = {
   visible: function() {
-      return (this.getStyle('display') != 'none');
+    return (this.getStyle('display') != 'none');
   },
   toggle: function() {
-      if (this.visible()) {
-          this.hide();
-      } else {		
-          this.show();
-      }
+    if (this.visible()) {
+        this.hide();
+    } else {		
+        this.show();
+    }
   },
-  hide: function(value, easetype){
+  hide: function() {
+    this.setStyle({
+        display:'none'
+    });
+    return this;
+  },
+  show: function() {
+    this.setStyle({
+        display:'block'
+    });
+    return this;	
+  },
+  fadeToggle: function(){
+    if (this.visible()) {
+        this.fadeOut();
+    } else {		
+        this.fadeIn();
+    }
+  },
+  fadeOut: function(value, easetype){
     // if value is defined a duration in milliseconds is added
     if(typeof(value) != 'undefined'){
       // Facebook Builtin Animation Ease Types: 
@@ -78,7 +97,7 @@ var fqExtend = {
       Animation(this).to('opacity', 0).from(1).hide().go();
     }
   },
-  show: function(value, easetype){
+  fadeIn: function(value, easetype){
     // if value is defined a duration in milliseconds is added
     if(typeof(value) != 'undefined'){
       // Facebook Builtin Animation Ease Types: 
@@ -230,15 +249,15 @@ var fqExtend = {
   },
   css: function(item,value){
     if(typeof(item) === 'object') {
-    	for(var attr in item){
-    		this.setStyle(attr,item[attr]);
-    	}
-    } else if(typeof(item) === 'string') {
+  		for(var attr in item){
+  	    this.setStyle(attr,item[attr]);
+  		}
+  	} else if(typeof(item) === 'string') {
     	if(typeof(value) != 'undefined') {
-    		return this.setStyle(item,value);
+		    return this.setStyle(item,value);
     	} else {
-    	return this.getStyle(item);
+    	  return this.getStyle(item);
     	}
-    }
+  	}
   }
 }
