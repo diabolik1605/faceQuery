@@ -23,18 +23,18 @@ function $(selector) {
 		    	var id = match[0].substring(1);
 		    	that = document.getElementById(id);
 		    	break;
-      		case ".":
-    		    var klass = match[0].substring(1);
-    		    var klassArry = [];
-            var root = document.getRootElement();
-            var rootChildren = root.getChildNodes();
-            rootChildren.forEach(function(item){
-              if(typeof(item) === 'object' && item.hasClassName(klass)){
-                  klassArry[klassArry.length] = item;
-              }
-            }, rootChildren);
-            that = klassArry;
-            break;
+		    case ".":
+		    	var klass = match[0].substring(1);
+		    	var klassArry = [];
+		    	var root = document.getRootElement();
+		    	var rootChildren = root.getChildNodes();
+		    	rootChildren.forEach(function(item){
+		    	  if(typeof(item) === 'object' && item.hasClassName(klass)){
+		    	      klassArry[klassArry.length] = item;
+		    	  }
+		    	}, rootChildren);
+		    	that = klassArry;
+		    	break;
 		    default:
 		    	that = document.getElementById(match[0]);
 		    	break;
@@ -113,6 +113,12 @@ var fqExtend = {
   },
   remove: function() {
     this.getParentNode().removeChild(this);
+    return null;
+  },
+  empty: function() {
+    while (this.getFirstChild()) {
+	this.removeChild(this.getFirstChild());
+    }
     return null;
   },
   /*
@@ -249,15 +255,15 @@ var fqExtend = {
   },
   css: function(item,value){
     if(typeof(item) === 'object') {
-  		for(var attr in item){
+  	  for(var attr in item){
   	    this.setStyle(attr,item[attr]);
-  		}
-  	} else if(typeof(item) === 'string') {
-    	if(typeof(value) != 'undefined') {
-		    return this.setStyle(item,value);
-    	} else {
-    	  return this.getStyle(item);
-    	}
-  	}
+  	  }
+    } else if(typeof(item) === 'string') {
+  	  if(typeof(value) != 'undefined') {
+  	    return this.setStyle(item,value);
+  	  } else {
+  	    return this.getStyle(item);
+  	  }
+    }
   }
 }
