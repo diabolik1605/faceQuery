@@ -215,6 +215,17 @@ var fqExtend = {
     return this.setInnerFBML(value);
   },
   /*
+  * method: val(value)
+  *    set or get value of oject.
+  */
+  val: function(value){
+    if(typeof(value) != 'undefined') {
+      return this.setValue(value);
+    } else {
+      return this.getValue(value);
+    }
+  },
+  /*
   * 
   */
   append: function(element){
