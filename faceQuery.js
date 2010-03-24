@@ -98,17 +98,19 @@ var fqExtend = {
     }
   },
   fadeIn: function(value, easetype){
-    // if value is defined a duration in milliseconds is added
-    if(typeof(value) != 'undefined'){
-      // Facebook Builtin Animation Ease Types: 
-      // Animation.ease.begin - Animation.ease.end - Animation.ease.both
-      if (typeof(easetype) != 'undefined'){
-    	  Animation(this).to('opacity', 1).from(0).show().duration(value).ease(easetype).go();
-      } else {
-    	  Animation(this).to('opacity', 1).from(0).show().duration(value).go();
-      }
-    } else {
-      Animation(this).to('opacity', 1).from(0).show().go();
+    if(!this.visible()){
+        // if value is defined a duration in milliseconds is added
+        if(typeof(value) != 'undefined'){
+          // Facebook Builtin Animation Ease Types: 
+          // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+          if (typeof(easetype) != 'undefined'){
+        	  Animation(this).to('opacity', 1).from(0).show().duration(value).ease(easetype).go();
+          } else {
+        	  Animation(this).to('opacity', 1).from(0).show().duration(value).go();
+          }
+        } else {
+          Animation(this).to('opacity', 1).from(0).show().go();
+        }
     }
   },
   slideToggle: function(){
@@ -133,23 +135,33 @@ var fqExtend = {
     } 
   },
   slideDown: function(value, easetype){
-    // if value is defined a duration in milliseconds is added
-    if(typeof(value) != 'undefined'){
-      // Facebook Builtin Animation Ease Types: 
-      // Animation.ease.begin - Animation.ease.end - Animation.ease.both
-      if (typeof(easetype) != 'undefined'){
-    	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).ease(easetype).go();
-      } else {
-    	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).go();
-      }
-    } else {
-      Animation(this).to('height', 'auto').from('0px').blind().show().go();
+    if(!this.visible()){
+        // if value is defined a duration in milliseconds is added
+        if(typeof(value) != 'undefined'){
+          // Facebook Builtin Animation Ease Types: 
+          // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+          if (typeof(easetype) != 'undefined'){
+        	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).ease(easetype).go();
+          } else {
+        	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).go();
+          }
+        } else {
+          Animation(this).to('height', 'auto').from('0px').blind().show().go();
+        }   
     }
   },
+  /* 
+  * method: remove()
+  *    removes object from DOM
+  */
   remove: function() {
     this.getParentNode().removeChild(this);
     return null;
   },
+  /* 
+  * method: empty()
+  *    removes all children in object
+  */
   empty: function() {
     while (this.getFirstChild()) {
 	this.removeChild(this.getFirstChild());
@@ -186,14 +198,14 @@ var fqExtend = {
           height: originalHeight
       };
   },
-	/* 
-	 * method: attr(item,[value])
-	 *    gets or sets the following attributes
-	 *    - class, src, id, title, name
-	 *    if item is an object it loops through
-	 *    NOTE: to work cross-browser keys must 
-   *    be in quotes {"id":"val","src":"val"}
-	 */
+  /* 
+  * method: attr(item,[value])
+  *    gets or sets the following attributes
+  *    - class, src, id, title, name
+  *    if item is an object it loops through
+  *    NOTE: to work cross-browser keys must 
+  *    be in quotes {"id":"val","src":"val"}
+  */
   attr: function(item, value){
     if(typeof(item) === 'object') {
   		for(var attr in item){
@@ -250,8 +262,15 @@ var fqExtend = {
     return this.setInnerFBML(value);
   },
   /*
+  * method: text(value)
+  *    shortcut for .setTextValue()
+  */
+  text: function(value){
+   return this.setTextValue(value);
+  },
+  /*
   * method: val(value)
-  *    set or get value of oject.
+  *    set or get value of object.
   */
   val: function(value){
     if(typeof(value) != 'undefined') {
@@ -261,26 +280,23 @@ var fqExtend = {
     }
   },
   /*
-  * 
+  * method: append(element) 
+  *	shortcut for appendChild
   */
   append: function(element){
     return this.appendChild(element);
   },
   /*
-  * 
+  * method: prepend(element) 
+  *	appends element before parentElement
   */
   prepend: function(element){
     var thatParent = this.getParentNode();
     return thatParent.insertBefore(element,thatParent);
   },
   /*
-  * 
-  */
-  text: function(value){
-   return this.setTextValue(value);
-  },
-  /*
-  * 
+  * method: click(fnc) 
+  *	sets click event listener with callback function
   */
   click: function(fnc){
     if(this.attachEvent){
@@ -289,6 +305,12 @@ var fqExtend = {
   	  return this.addEventListener('click', fnc, false);
     }
   },
+  /*
+  * method: click(fnc) 
+  *	sets hover event listener with callback function
+  *	Note: needs both hover over and hover out functions
+  *	to be set to work properly
+  */
   hover: function(fncOver,fncOut){
     if(this.attachEvent){
   	  this.attachEvent('mouseover', fncOver);
@@ -299,6 +321,15 @@ var fqExtend = {
   	  this.addEventListener('mouseout', fncOut);
     }
   },
+  /*
+  * method: css(item,value) 
+  *	sets or gets css values for an object
+  *	if value is not specified it will return
+  *	the requested css value. can take arrays.
+  *	NOTE: to work cross-browser keys must 
+  *	be in quotes {"background":"val","color":"val"}
+  *	also all values needing px must use px
+  */
   css: function(item,value){
     if(typeof(item) === 'object') {
   	  for(var attr in item){
