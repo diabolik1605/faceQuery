@@ -111,6 +111,34 @@ var fqExtend = {
       Animation(this).to('opacity', 1).from(0).show().go();
     }
   },
+  slideUp: function(value, easetype){
+    // if value is defined a duration in milliseconds is added
+    if(typeof(value) != 'undefined'){
+      // Facebook Builtin Animation Ease Types: 
+      // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+      if (typeof(easetype) != 'undefined'){
+    	  Animation(this).to('height', '0px').blind().hide().duration(value).ease(easetype).go();
+      } else {
+    	  Animation(this).to('height', '0px').blind().hide().duration(value).go();
+      }
+    } else {
+      Animation(this).to('height', '0px').blind().hide().go();
+    } 
+  },
+  slideDown: function(value, easetype){
+    // if value is defined a duration in milliseconds is added
+    if(typeof(value) != 'undefined'){
+      // Facebook Builtin Animation Ease Types: 
+      // Animation.ease.begin - Animation.ease.end - Animation.ease.both
+      if (typeof(easetype) != 'undefined'){
+    	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).ease(easetype).go();
+      } else {
+    	  Animation(this).to('height', 'auto').from('0px').blind().show().duration(value).go();
+      }
+    } else {
+      Animation(this).to('height', 'auto').from('0px').blind().show().go();
+    }
+  },
   remove: function() {
     this.getParentNode().removeChild(this);
     return null;
