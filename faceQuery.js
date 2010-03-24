@@ -169,8 +169,9 @@ var fqExtend = {
     return null;
   },
   /*
-   * Returns calculated element size
-   */
+  * method: getDimensions()
+  *    returns calculated element size hash
+  */
   getDimensions: function() {
       var display = this.getStyle('display');
       if (display != 'none' && display != null) // Safari bug
@@ -306,9 +307,9 @@ var fqExtend = {
     }
   },
   /*
-  * method: click(fnc) 
+  * method: hover(fncOver,fncOut) 
   *	sets hover event listener with callback function
-  *	Note: needs both hover over and hover out functions
+  *	Note: needs both hoverover and hoverout functions
   *	to be set to work properly
   */
   hover: function(fncOver,fncOut){
