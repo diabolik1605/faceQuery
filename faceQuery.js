@@ -55,13 +55,13 @@ function faceQuery(instance,hash) {
 
 var fqExtend = {
   visible: function() {
-    return (this.getStyle('display') != 'none');
-  },
-  toggle: function() {
-    if (this.visible()) {
-        this.hide();
-    } else {		
-        this.show();
+    var display = this.getStyle('display');
+    if (display != 'none' && display != null){
+      return true;
+    } else if(display != 'none'){
+      return true;
+    } else {
+      return false;
     }
   },
   hide: function() {
@@ -109,6 +109,13 @@ var fqExtend = {
       }
     } else {
       Animation(this).to('opacity', 1).from(0).show().go();
+    }
+  },
+  slideToggle: function(){
+    if (this.visible()) {
+        this.slideUp();
+    } else {		
+        this.slideDown();
     }
   },
   slideUp: function(value, easetype){
