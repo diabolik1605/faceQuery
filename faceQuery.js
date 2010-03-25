@@ -151,6 +151,20 @@ var fqExtend = {
     }
   },
   /* 
+  * method: parent()
+  *    returns object parent
+  */
+  parent: function() {
+    return this.getParentNode();
+  },
+  /* 
+  * method: children()
+  *    returns array of children in object
+  */
+  children: function() {
+    return this.getChildNodes();
+  },
+  /* 
   * method: remove()
   *    removes object from DOM
   */
