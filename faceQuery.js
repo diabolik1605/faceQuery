@@ -347,9 +347,7 @@ var fqExtend = {
   */
   css: function(item,value){
     if(typeof(item) === 'object') {
-  	  for(var attr in item){
-  	    this.setStyle(attr,item[attr]);
-  	  }
+  	  return this.setStyle(item);
     } else if(typeof(item) === 'string') {
   	  if(typeof(value) != 'undefined') {
   	    return this.setStyle(item,value);
