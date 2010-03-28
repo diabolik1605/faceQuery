@@ -65,22 +65,16 @@ var fqExtend = {
     }
   },
   hide: function() {
-    this.setStyle({
-        display:'none'
-    });
-    return this;
+    return this.setStyle({ display:'none' });
   },
   show: function() {
-    this.setStyle({
-        display:'block'
-    });
-    return this;	
+    return this.setStyle({ display:'block' });
   },
   fadeToggle: function(){
     if (this.visible()) {
-        this.fadeOut();
+        return this.fadeOut();
     } else {		
-        this.fadeIn();
+        return this.fadeIn();
     }
   },
   fadeOut: function(value, easetype){
@@ -115,9 +109,9 @@ var fqExtend = {
   },
   slideToggle: function(){
     if (this.visible()) {
-        this.slideUp();
+        return this.slideUp();
     } else {		
-        this.slideDown();
+        return this.slideDown();
     }
   },
   slideUp: function(value, easetype){
@@ -213,6 +207,36 @@ var fqExtend = {
           height: originalHeight
       };
   },
+  /*
+  * method parentOffsets()
+  *		returns offsets according to parent
+  */
+  parentOffsets: function() {
+  	var parentElement = this.getParentNode();
+  	var parentOffsets = {
+  		top: parentElement.getAbsoluteTop(),
+  		left: parentElement.getAbsoluteLeft()
+  	};
+  	return {
+  		top: this.getAbsoluteTop()-parentOffsets.top,
+  		left: this.getAbsoluteLeft()-parentOffsets.left
+  	}
+  },
+  /*
+  * method canvasOffsets()
+  *		returns offsets according to canvas
+  */
+  canvasOffsets: function() {
+  	var rootElement = this.getRootElement();
+  	var rootOffsets = {
+  		top: rootElement.getAbsoluteTop(),
+  		left: rootElement.getAbsoluteLeft()
+  	};
+  	return {
+  		top: this.getAbsoluteTop()-rootOffsets.top,
+  		left: this.getAbsoluteLeft()-rootOffsets.left
+  	}
+  },
   /* 
   * method: attr(item,[value])
   *    gets or sets the following attributes
@@ -256,7 +280,7 @@ var fqExtend = {
   *    sets inner xhtml for an object.
   */	
   xhtml: function(value) {
-    //setInnerXHTML will fail unless you make sure `value` has one root container
+    // setInnerXHTML will fail unless you make sure `value` has one root container
     return this.setInnerXHTML('<span>' + value + '</span>');
   },
   /*
@@ -334,6 +358,7 @@ var fqExtend = {
     } else if(this.addEventListener){
   	  this.addEventListener('mouseover', fncOver);
   	  this.addEventListener('mouseout', fncOut);
+  	  return this;
     }
   },
   /*
