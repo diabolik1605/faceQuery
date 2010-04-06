@@ -383,6 +383,80 @@ var fqExtend = {
   }
 }
 
+/*
+* method inArray(array)
+*    returns boolean
+*/
+function inArray(needle, haystack, argStrict) {
+    var key = '', strict = !!argStrict;
+    if (strict) {
+        for (key in haystack) {
+            if (haystack[key] === needle) {
+                return true;
+            }
+        }
+    } else {
+        for (key in haystack) {
+            if (haystack[key] == needle) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/*
+* method cloneArray(array)
+*    returns clone of original array
+*/
+function cloneArray(arry){
+	return arry.slice(0,arry.length);
+}
+/*
+* method urlEncode(array)
+*    returns url-encoded string
+*/
+function urlEncode(str) {
+    var output = '';
+    var x = 0;
+    clearString = str.toString();
+    var regex = /(^[a-zA-Z0-9_.]*)/;
+    while (x < clearString.length) {
+      var match = regex.exec(clearString.substr(x));
+      if (match != null && match.length > 1 && match[1] != '') {
+      	output += match[1];
+        x += match[1].length;
+      } else {
+        if (clearString[x] == ' ')
+          output += '+';
+        else {
+          var charCode = clearString.charCodeAt(x);
+          var hexVal = charCode.toString(16);
+          output += '%' + ( hexVal.length < 2 ? '0' : '' ) + hexVal.toUpperCase();
+        }
+        x++;
+      }
+    }
+    return output;
+}
+/*
+* method urlDecode(array)
+*    returns url-decoded string
+*/
+function urlDecode (str) {
+    var output = str;
+    var binVal, thisString;
+    var myregexp = /(%[^%]{2})/;
+    while ((match = myregexp.exec(output)) != null
+               && match.length > 1
+               && match[1] != '') {
+      binVal = parseInt(match[1].substr(1),16);
+      thisString = String.fromCharCode(binVal);
+      output = output.replace(match[1], thisString);
+    }
+    return output;
+}
+
 var JSON = {};
 /*
 * function JSON.stringify(object)
