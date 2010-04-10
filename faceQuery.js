@@ -473,7 +473,7 @@ JSON.stringify = (function () {
       case 'object': 
         if (o) {
           var a = []
-          if (o.constructor == []) {
+          if (o.length) {
             for (var i = 0; i < o.length; i++) {
               var json = JSON.stringify(o[i])
               if (json != UNDEFINED) a[a.length] = json
