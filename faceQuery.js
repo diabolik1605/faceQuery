@@ -249,13 +249,17 @@ var fqExtend = {
     if(typeof(item) === 'object') {
   		for(var attr in item){
   			if (item.hasOwnProperty(attr)) {
-  				if(attr = "class") { return this.addClassName(item[attr]); } 
-  				else if(attr = "src") { return this.setSrc(item[attr]); } 
-  				else if(attr = "id") { return this.setId(item[attr]); } 
-  				else if(attr = "title") { return this.setTitle(item[attr]); } 
-  				else if(attr = "name") { return this.setName(item[attr]); }
+  				switch(attr) {
+  					case "class": this.addClassName(item[attr]); break;
+  					case "src": this.setSrc(item[attr]); break;
+  					case "id": this.setId(item[attr]); break;
+  					case "title": this.setTitle(item[attr]); break;
+  					case "name": this.setName(item[attr]); break;
+  					case "href": this.setHref(item[attr]); break;
+  				} 
   			}
   		}
+  		return this;
   	} else if(typeof(item) === 'string') {
   		if(typeof(value) != 'undefined') {
   			switch(item) {
@@ -264,6 +268,7 @@ var fqExtend = {
   				case "id": return this.setId(value); break;
   				case "title": return this.setTitle(value); break;
   				case "name": return this.setName(value); break;
+  				case "href": return this.setHref(value); break;
   			} 
   		} else {
   			switch(item) {
@@ -271,6 +276,7 @@ var fqExtend = {
   				case "id": return this.getId(value); break;
   				case "title": return this.getTitle(value); break;
   				case "name": return this.getName(value); break;
+  				case "href": return this.getHref(value); break;
   			}
   		}   
   	}
@@ -343,6 +349,29 @@ var fqExtend = {
     } else if(this.addEventListener){
   	  return this.addEventListener('click', fnc, false);
     }
+  },
+  /*
+  * method: clickHold(func,time) 
+  *	sets click and hold for a set amount of time in ms
+  *	if is unheld before time is up timer is destroyed
+  */
+  clickHold: function(func,time){
+      var clickHoldTimer = 0;
+      if(this.attachEvent){
+          this.attachEvent('mousedown', function(){
+              clickHoldTimer = setTimeout(func,time);
+          });
+          this.attachEvent('mouseup', function(){
+              clearTimeout(clickHoldTimer);
+          });
+      } else if(this.addEventListener){
+          this.addEventListener('mousedown', function(){
+              clickHoldTimer = setTimeout(func,time);
+          });
+          this.addEventListener('mouseup', function(){
+              clearTimeout(clickHoldTimer);
+          });
+      }
   },
   /*
   * method: hover(fncOver,fncOut) 
