@@ -6,7 +6,7 @@ function $(selector) {
 	// Is the selector an object or string?
 	var type = typeof selector;
 	if (type === "object") {
-    that = selector;
+	that = selector;
 	} else if (type === "string") {
 		/*
 		 * What type of selector are we dealing with?
@@ -30,7 +30,7 @@ function $(selector) {
 		    	var rootChildren = root.getChildNodes();
 		    	rootChildren.forEach(function(item){
 		    	  if(typeof(item) === 'object' && item.hasClassName(klass)){
-		    	      klassArry[klassArry.length] = item;
+		    	      klassArry.push($(item));
 		    	  }
 		    	}, rootChildren);
 		    	that = klassArry;
@@ -90,6 +90,7 @@ var fqExtend = {
     } else {
       Animation(this).to('opacity', 0).from(1).hide().go();
     }
+    return this;  
   },
   fadeIn: function(value, easetype){
     if(!this.visible()){
@@ -105,6 +106,7 @@ var fqExtend = {
         } else {
           Animation(this).to('opacity', 1).from(0).show().go();
         }
+        return this;  
     }
   },
   slideToggle: function(){
@@ -127,6 +129,7 @@ var fqExtend = {
     } else {
       Animation(this).to('height', '0px').blind().hide().go();
     } 
+    return this;
   },
   slideDown: function(value, easetype){
     if(!this.visible()){
@@ -141,7 +144,8 @@ var fqExtend = {
           }
         } else {
           Animation(this).to('height', 'auto').from('0px').blind().show().go();
-        }   
+        }
+        return this;   
     }
   },
   /* 
@@ -364,6 +368,7 @@ var fqExtend = {
           this.attachEvent('mouseup', function(){
               clearTimeout(clickHoldTimer);
           });
+          return this;
       } else if(this.addEventListener){
           this.addEventListener('mousedown', function(){
               clickHoldTimer = setTimeout(func,time);
@@ -371,6 +376,7 @@ var fqExtend = {
           this.addEventListener('mouseup', function(){
               clearTimeout(clickHoldTimer);
           });
+          return this;
       }
   },
   /*
@@ -409,9 +415,41 @@ var fqExtend = {
   	    return this.getStyle(item);
   	  }
     }
+  },
+  /*
+  * method opacity(value)
+  *    sets gets opacity of an object
+  *    use a number from 0 to 100
+  */
+  opacity: function(value){
+    if(typeof(value) != 'undefined'){
+        value = value/100;
+        Animation(this).to('opacity', value).go();
+        return this;
+    } else {
+        if (this.visible()) {
+             return this.getStyle('opacity');
+        } else {		
+            return 0;
+        }
+    }
   }
 }
-
+/*
+* faceQuery prototype method each()
+*    shorcut for js Array.forEach()
+*/
+$.prototype.each = function (iterator, context) {
+    var index = 0;
+    try {
+      this._each(function(value) {
+        iterator.call(context, value, index++);
+      });
+    } catch (e) {
+      if (e != { }) throw e;
+    }
+    return this;
+}
 /*
 * method inArray(array)
 *    returns boolean
